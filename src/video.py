@@ -13,13 +13,19 @@ class Video:
 	def __init__(self, video_id):
 		self.video_id = video_id
 		video_response = self.video()
-		self.video_title: str = video_response['items'][0]['snippet']['title']
-		self.view_count: int = video_response['items'][0]['statistics']['viewCount']
-		self.like_count: int = video_response['items'][0]['statistics']['likeCount']
-		self.comment_count: int = video_response['items'][0]['statistics']['commentCount']
+		try:
+			self.title: str = video_response['items'][0]['snippet']['title']
+			self.view_count: int = video_response['items'][0]['statistics']['viewCount']
+			self.like_count: int = video_response['items'][0]['statistics']['likeCount']
+			self.comment_count: int = video_response['items'][0]['statistics']['commentCount']
+		except IndexError:
+			self.title = None
+			self.view_count = None
+			self.like_count = None
+			self.comment_count = None
 
 	def __str__(self):
-		return f'{self.video_title}'
+		return f'{self.title}'
 
 	def video(self):
 		"""
@@ -50,7 +56,7 @@ class PLVideo(Video):
 		return playlist_videos
 
 	def __str__(self):
-		return f'{self.video_title}'
+		return f'{self.title}'
 
 
 if __name__ == '__main__':
